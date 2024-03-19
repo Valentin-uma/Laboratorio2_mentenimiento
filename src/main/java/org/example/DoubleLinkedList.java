@@ -7,7 +7,9 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
     private int size;
 
     public DoubleLinkedList() {
-        // TODO
+        this.first = new LinkedNode<>(null, last, last);
+        this.last = new LinkedNode<>(null, first, first);
+        this.size = 0;
     }
 
     @Override
@@ -32,19 +34,16 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public T first() {
-        // TODO
-        return null;
+        return this.first.getItem();
     }
 
     @Override
     public T last() {
-        // TODO
-        return null;
+        return this.last.getItem();
     }
 
     @Override
     public int size() {
-        // TODO
-        return 0;
+        return this.size;
     }
 }
