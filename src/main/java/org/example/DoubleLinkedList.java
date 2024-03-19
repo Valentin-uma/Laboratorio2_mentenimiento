@@ -7,8 +7,8 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
     private int size;
 
     public DoubleLinkedList() {
-        this.first = new LinkedNode<>(null, last, last);
-        this.last = new LinkedNode<>(null, first, first);
+        this.first = new LinkedNode<>(null, null, last);
+        this.last = new LinkedNode<>(null, first, null);
         this.size = 0;
     }
 
