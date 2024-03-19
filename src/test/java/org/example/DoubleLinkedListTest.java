@@ -67,25 +67,25 @@ public class DoubleLinkedListTest {
             }
 
             @Test
-            @DisplayName("check first")
-            public void getFirst_afterAppendAnElement_returnNewFirstElement() {
-                Object first = newList.first();
+            @DisplayName("check last")
+            public void getLast_afterPrependElement_returnNewLastElement() {
+                Object last = newList.last();
 
-                assertEquals(first.toString(), node.toString());
+                assertEquals(last.toString(), node.toString());
             }
 
             @Nested
-            @DisplayName("after delete first element")
-            class afterDeleteFirst {
+            @DisplayName("after delete last element")
+            class afterDeleteLast {
 
                 @BeforeEach
-                public void deleteFirstElement_whenIsNotEmpty() {
-                    newList.deleteFirst();
+                public void deleteLastElement_whenIsEmpty() {
+                    newList.deleteLast();
                 }
 
                 @Test
                 @DisplayName("is Empty")
-                public void isEmpty_afterDeleteFirst_returnNewSize() {
+                public void isEmpty_afterDeleteLast_returnNewSize() {
                     int expectedSize = 0;
                     int currentSize = newList.size();
 
@@ -117,25 +117,25 @@ public class DoubleLinkedListTest {
             }
 
             @Test
-            @DisplayName("check last")
-            public void getLast_afterPrependElement_returnNewLastElement() {
-                Object last = newList.last();
+            @DisplayName("check first")
+            public void getFirst_afterAppendAnElement_returnNewFirstElement() {
+                Object first = newList.first();
 
-                assertEquals(last.toString(), node.toString());
+                assertEquals(first.toString(), node.toString());
             }
 
             @Nested
-            @DisplayName("after deleting last element")
-            class afterDeletingLast {
+            @DisplayName("after delete first element")
+            class afterDeleteFirst {
 
                 @BeforeEach
-                public void deleteLastElement_whenIsEmpty() {
-                    newList.deleteLast();
+                public void deleteFirstElement_whenIsNotEmpty() {
+                    newList.deleteFirst();
                 }
 
                 @Test
                 @DisplayName("is Empty")
-                public void isEmpty_afterDeleteLast_returnNewSize() {
+                public void isEmpty_afterDeleteFirst_returnNewSize() {
                     int expectedSize = 0;
                     int currentSize = newList.size();
 
