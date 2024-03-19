@@ -7,44 +7,60 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
     private int size;
 
     public DoubleLinkedList() {
-        // TODO
+
+        this.first = new LinkedNode<>(null, null, last);
+        this.last = new LinkedNode<>(null, first, null);
+        this.size = 0;
     }
 
     @Override
     public void prepend(T value) {
-        // TODO
+        LinkedNode<T> newFirst = new LinkedNode(value,null,first);
+        first.setPrevious(newFirst);
+        first = newFirst;
     }
 
     @Override
     public void append(T value) {
-        // TODO
+        LinkedNode<T> newLast = new LinkedNode(value,last,null);
+        last.setNext(newLast);
+        last = newLast;
     }
 
     @Override
     public void deleteFirst() {
-        // TODO
+        if(size <=0){
+            throw new DoubleLinkedQueueException("The Queue is empty");
+        }
+        LinkedNode<T> newFirst = new LinkedNode(first.getNext().getItem(),null,first.getNext().getNext());
+        first = newFirst;
+
+
     }
 
     @Override
     public void deleteLast() {
-        // TODO
+        if(size <=0){
+            throw new DoubleLinkedQueueException("The Queue is empty");
+        }
+        LinkedNode<T> newLast = new LinkedNode(last.getPrevious().getItem(),last.getPrevious().getPrevious(),null);
+        first = newLast;
+
     }
 
     @Override
     public T first() {
-        // TODO
-        return null;
+        return this.first.getItem();
     }
 
     @Override
     public T last() {
-        // TODO
-        return null;
+        return this.last.getItem();
+
     }
 
     @Override
     public int size() {
-        // TODO
-        return 0;
+        return this.size;
     }
 }
