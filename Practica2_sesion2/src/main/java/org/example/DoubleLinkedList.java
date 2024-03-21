@@ -10,24 +10,42 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
     private int size;
 
     public DoubleLinkedList() {
-        this.first = new LinkedNode<>(null, null, last);
-        this.last = new LinkedNode<>(null, first, null);
+        this.first = null;
+        this.last = null;
         this.size = 0;
     }
 
     @Override
     public void prepend(T value) {
-        LinkedNode<T> newFirst = new LinkedNode<>(value,null,first);
-        first.setPrevious(newFirst);
-        first = newFirst;
+        if(size==0){
+            LinkedNode<T> temp = new LinkedNode<>(value,null,null);
+            first = temp;
+            last = temp;
+
+        }
+        else {
+            LinkedNode<T> newFirst = new LinkedNode<>(value,null,first);
+            first.setPrevious(newFirst);
+            first = newFirst;
+        }
+
         size++;
     }
 
     @Override
     public void append(T value) {
-        LinkedNode<T> newLast = new LinkedNode<>(value,last,null);
-        last.setNext(newLast);
-        last = newLast;
+
+        if(size==0){
+            LinkedNode<T> temp = new LinkedNode<>(value,null,null);
+            first = temp;
+            last = temp;
+
+        }
+        else{
+            LinkedNode<T> newLast = new LinkedNode<>(value,last,null);
+            last.setNext(newLast);
+            last = newLast;
+        }
         size++;
     }
 
@@ -94,14 +112,76 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
     public void remove(T value) {
 
         boolean finish = false;
-        while (!finish){
+        LinkedNode<T> elementActu = this.first;
+        while (!finish && (elementActu != null)){
+
+            if(elementActu.getItem() == value){
+                //delete + stop loop
+
+                if(elementActu.isFirstNode()){
+                    LinkedNode<T> next = elementActu.getNext();
+                    next.setPrevious(null);
+                    this.first = next;
+                }
+                else if (elementActu.isLastNode()) {
+
+                    LinkedNode<T> previous = elementActu.getPrevious();
+                    previous.setNext(null);
+                    this.last = previous;
+
+                }
+                else{
+                    LinkedNode<T> next = elementActu.getNext();
+                    LinkedNode<T> previous = elementActu.getPrevious();
+                    next.setPrevious(previous);
+                    previous.setNext(next);
+
+                }
+
+                this.size = this.size -1;
+                finish = true;
+            }
+
+            elementActu = elementActu.getNext();
 
         }
 
     }
 
+    //NOT FINISH
     @Override
     public void sort(Comparator<? super T> comparator) {
+        if (size <= 1) {
+            return;
+        }
 
+        LinkedNode<T> current = first.getNext();
+
+        while (current != null) {
+            T currentItem = current.getItem();
+            LinkedNode<T> previous = current.getPrevious();
+
+            while (previous != null && comparator.compare(previous.getItem(), currentItem) > 0) {
+                // Déplace les éléments vers la droite jusqu'à ce que la position correcte soit trouvée
+
+                //deplace current vers la gauche jusqu'à la bonne place
+
+                LinkedNode<T> currentNext = current.getNext();
+                LinkedNode<T> previousPrev = previous.getPrevious();
+                current.setNext(previous);
+                current.setPrevious(previousPrev);
+                previous.setNext(currentNext);
+
+
+                LinkedNode<T> next = previous.getNext();
+                current.setItem(previous.getItem());
+                current = previous;
+                previous = next.getPrevious();
+            }
+            // Insertion de l'élément courant à sa position correcte
+            current.setItem(currentItem);
+            // Passer à la prochaine node
+            current = current.getNext();
+        }
     }
 }
