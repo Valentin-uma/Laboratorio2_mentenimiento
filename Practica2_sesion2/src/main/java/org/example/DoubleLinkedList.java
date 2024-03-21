@@ -84,6 +84,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
         while (i <= this.size && !found) {
             if (Objects.equals(aux.getItem(), value))
                 found = true;
+            aux = aux.getNext();
             i++;
         }
         return found;
