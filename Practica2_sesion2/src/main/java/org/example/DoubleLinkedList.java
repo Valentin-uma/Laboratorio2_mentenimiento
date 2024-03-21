@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Comparator;
+
 public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     private LinkedNode<T> first;
@@ -57,5 +59,38 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
     @Override
     public int size() {
         return this.size;
+    }
+
+    @Override
+    public T get(int index) {
+        if(index >= size()){
+            throw new DoubleLinkedQueueException("The element does'nt exist");
+
+        }
+        LinkedNode<T> elementActu = this.first;
+        for (int i=0;i<index;i++){
+            elementActu = elementActu.getNext();
+        }
+        return elementActu.getItem();
+    }
+
+    @Override
+    public boolean contains(T value) {
+        return false;
+    }
+
+    @Override
+    public void remove(T value) {
+
+        boolean finish = false;
+        while (!finish){
+
+        }
+
+    }
+
+    @Override
+    public void sort(Comparator<? super T> comparator) {
+
     }
 }

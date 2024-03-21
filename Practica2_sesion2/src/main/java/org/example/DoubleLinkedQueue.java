@@ -1,4 +1,4 @@
-package org.mps.deque;
+package org.example;
 
 import java.util.Comparator;
 
@@ -101,4 +101,5 @@ public interface DoubleLinkedQueue<T> {
      * @param comparator the {@code Comparator} used to compare deque elements
      */
     void sort(Comparator<? super T> comparator);
+
 }
