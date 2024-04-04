@@ -51,27 +51,45 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public void deleteFirst() {
-        if(size <=0)
+        if(size <=0) {
             throw new DoubleLinkedQueueException("The Queue is empty");
-        this.first = new LinkedNode<>(first.getNext().getItem(),null,first.getNext().getNext());
+        } else if (size == 1) {
+            this.first = null;
+            this.last = null;
+        }
+        else {
+            this.first = new LinkedNode<>(first.getNext().getItem(),null,first.getNext().getNext());
+        }
         size--;
     }
 
     @Override
     public void deleteLast() {
-        if(size <=0)
+        if(size <=0) {
             throw new DoubleLinkedQueueException("The Queue is empty");
-        this.last = new LinkedNode<>(last.getPrevious().getItem(),last.getPrevious().getPrevious(),null);
+        } else if (size == 1) {
+            this.first = null;
+            this.last = null;
+        }
+        else {
+            this.last = new LinkedNode<>(last.getPrevious().getItem(),last.getPrevious().getPrevious(),null);
+        }
         size--;
     }
 
     @Override
     public T first() {
+        if(size <=0) {
+            throw new DoubleLinkedQueueException("The Queue is empty");
+        }
         return this.first.getItem();
     }
 
     @Override
     public T last() {
+        if(size <=0) {
+            throw new DoubleLinkedQueueException("The Queue is empty");
+        }
         return this.last.getItem();
     }
 

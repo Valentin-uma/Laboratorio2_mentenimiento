@@ -44,6 +44,22 @@ public class DoubleLinkedListTest {
             });
         }
 
+        @Test
+        @DisplayName("Get first when is empty")
+        public void First_whenEmpty_ReturnsException() {
+            assertThrows(DoubleLinkedQueueException.class, () -> {
+                newList.last();
+            });
+        }
+
+        @Test
+        @DisplayName("Get last when is empty")
+        public void Last_whenEmpty_ReturnsException() {
+            assertThrows(DoubleLinkedQueueException.class, () -> {
+                newList.first();
+            });
+        }
+
         @Nested
         @DisplayName("after append an element")
         class AfterAppend {
@@ -123,6 +139,31 @@ public class DoubleLinkedListTest {
 
                 assertEquals(first.toString(), node.toString());
             }
+
+            @Test
+            @DisplayName("deleteFirst when there is 2 elements")
+            public void delete_first_when_2_elements_returnLastElement() {
+                LinkedNode<String> lastNode = new LinkedNode<>("element2", null, null);
+
+                newList.append(lastNode);
+
+                newList.deleteFirst();
+
+                assertEquals(newList.first(), lastNode);
+            }
+
+            @Test
+            @DisplayName("deleteLast when there is 2 elements")
+            public void delete_last_when_2_elements_returnFirstElement() {
+                LinkedNode<String> firstNode = new LinkedNode<>("element2", null, null);
+
+                newList.prepend(firstNode);
+
+                newList.deleteLast();
+
+                assertEquals(newList.last(), firstNode);
+            }
+
 
             @Nested
             @DisplayName("after delete first element")

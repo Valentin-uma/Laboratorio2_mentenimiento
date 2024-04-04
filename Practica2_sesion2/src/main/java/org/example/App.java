@@ -12,11 +12,10 @@ public class App
 
         DoubleLinkedList<String> doubleLinkedList = new DoubleLinkedList();
         doubleLinkedList.prepend("3");
-        doubleLinkedList.prepend("2");
 
-        doubleLinkedList.prepend("1");
-
-        System.out.println(doubleLinkedList.get(1));
+        System.out.println(doubleLinkedList.get(0));
+        doubleLinkedList.deleteLast();
+        doubleLinkedList.first();
 
     }
 }
