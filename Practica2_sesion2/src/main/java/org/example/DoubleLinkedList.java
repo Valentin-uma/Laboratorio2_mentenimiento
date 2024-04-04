@@ -17,31 +17,25 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public void prepend(T value) {
-        if(size==0){
+        if (size == 0) {
             LinkedNode<T> temp = new LinkedNode<>(value,null,null);
             first = temp;
             last = temp;
-
-        }
-        else {
+        } else {
             LinkedNode<T> newFirst = new LinkedNode<>(value,null,first);
             first.setPrevious(newFirst);
             first = newFirst;
         }
-
         size++;
     }
 
     @Override
     public void append(T value) {
-
-        if(size==0){
+        if (size == 0) {
             LinkedNode<T> temp = new LinkedNode<>(value,null,null);
             first = temp;
             last = temp;
-
-        }
-        else{
+        } else {
             LinkedNode<T> newLast = new LinkedNode<>(value,last,null);
             last.setNext(newLast);
             last = newLast;
@@ -51,13 +45,12 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public void deleteFirst() {
-        if(size <=0) {
+        if (size == 0) {
             throw new DoubleLinkedQueueException("The Queue is empty");
         } else if (size == 1) {
             this.first = null;
             this.last = null;
-        }
-        else {
+        } else {
             this.first = new LinkedNode<>(first.getNext().getItem(),null,first.getNext().getNext());
         }
         size--;
@@ -65,13 +58,12 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public void deleteLast() {
-        if(size <=0) {
+        if (size == 0) {
             throw new DoubleLinkedQueueException("The Queue is empty");
         } else if (size == 1) {
             this.first = null;
             this.last = null;
-        }
-        else {
+        } else {
             this.last = new LinkedNode<>(last.getPrevious().getItem(),last.getPrevious().getPrevious(),null);
         }
         size--;
@@ -79,7 +71,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public T first() {
-        if(size <=0) {
+        if(size == 0) {
             throw new DoubleLinkedQueueException("The Queue is empty");
         }
         return this.first.getItem();
@@ -87,7 +79,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public T last() {
-        if(size <=0) {
+        if(size == 0) {
             throw new DoubleLinkedQueueException("The Queue is empty");
         }
         return this.last.getItem();
@@ -100,27 +92,24 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public T get(int index) {
-        if(index >= size()){
+        if (index >= size()) {
             throw new DoubleLinkedQueueException("The element does not exist");
-
         }
-        LinkedNode<T> elementActu = this.first;
-        for (int i=0;i<index;i++){
-            elementActu = elementActu.getNext();
+        LinkedNode<T> auxiliarElem = this.first;
+        for (int i = 0; i < index; i++) {
+            auxiliarElem = auxiliarElem.getNext();
         }
-        return elementActu.getItem();
+        return auxiliarElem.getItem();
     }
 
     @Override
     public boolean contains(T value) {
-        LinkedNode<T> aux = this.first;
         boolean found = false;
         int i = 0;
 
-        while (i <= this.size && !found) {
-            if (Objects.equals(aux.getItem(), value))
+        while (i < this.size && !found) {
+            if (get(i).equals(value))
                 found = true;
-            aux = aux.getNext();
             i++;
         }
         return found;
@@ -128,48 +117,55 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
 
     @Override
     public void remove(T value) {
-
         boolean finish = false;
-        LinkedNode<T> elementActu = this.first;
-        while (!finish && (elementActu != null)){
+        int i = 0;
 
-            if(elementActu.getItem() == value){
-                //delete + stop loop
-
-                if(elementActu.isFirstNode()){
-                    deleteFirst();
-                }
-                else if (elementActu.isLastNode()) {
-
-                   deleteLast();
-
-                }
-                else{
-                    LinkedNode<T> next = elementActu.getNext();
-                    LinkedNode<T> previous = elementActu.getPrevious();
+        if (size() == 0) {
+            throw new DoubleLinkedQueueException("Empty queue");
+        } else if (first().equals(value)) {
+            deleteFirst();
+        } else if (last().equals(value)) {
+            deleteLast();
+        } else if (size() > 2) {
+            LinkedNode<T> currentElem = this.first.getNext();
+            while (i < size - 2 && !finish) {
+                if (currentElem.getItem().equals(value)) {
+                    LinkedNode<T> next = currentElem.getNext();
+                    LinkedNode<T> previous = currentElem.getPrevious();
                     next.setPrevious(previous);
                     previous.setNext(next);
-                    this.size = this.size -1;
-
+                    this.size--;
+                    finish = true;
                 }
-
-
-                finish = true;
+                i++;
             }
-
-            elementActu = elementActu.getNext();
-
         }
-
     }
 
-    //NOT FINISH
     @Override
     public void sort(Comparator<? super T> comparator) {
-        if (size <= 1) {
-            return;
+        if (this.size <= 0) {
+            throw new DoubleLinkedQueueException("Empty queue");
+        } else {
+            LinkedNode<T> current = this.first;
+            LinkedNode<T> next = current.getNext();
+            while (current.getNext() != null) {
+                while (next != null) {
+                    if (comparator.compare(current.getItem(), next.getItem()) > 0) {
+                        current.setNext(next.getNext());
+                        next.setPrevious(current.getPrevious());
+                        current.setPrevious(next);
+                        next.setNext(current);
+                    }
+                    next = next.getNext();
+                }
+                current = current.getNext();
+                next = current.getNext();
+            }
         }
 
+
+        /*
         LinkedNode<T> current = first.getNext();
 
         while (current != null) {
@@ -198,5 +194,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
             // Passer à la prochaine node
             current = current.getNext();
         }
+
+         */
     }
 }
