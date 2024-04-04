@@ -137,15 +137,11 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
                 //delete + stop loop
 
                 if(elementActu.isFirstNode()){
-                    LinkedNode<T> next = elementActu.getNext();
-                    next.setPrevious(null);
-                    this.first = next;
+                    deleteFirst();
                 }
                 else if (elementActu.isLastNode()) {
 
-                    LinkedNode<T> previous = elementActu.getPrevious();
-                    previous.setNext(null);
-                    this.last = previous;
+                   deleteLast();
 
                 }
                 else{
@@ -153,10 +149,11 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
                     LinkedNode<T> previous = elementActu.getPrevious();
                     next.setPrevious(previous);
                     previous.setNext(next);
+                    this.size = this.size -1;
 
                 }
 
-                this.size = this.size -1;
+
                 finish = true;
             }
 
