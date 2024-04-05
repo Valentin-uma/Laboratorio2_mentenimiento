@@ -128,7 +128,9 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
             deleteLast();
         } else if (size() > 2) {
             LinkedNode<T> currentElem = this.first.getNext();
-            while (i < size - 2 && !finish) {
+            while (currentElem.getNext() != null && !finish) {
+                System.out.println(currentElem.getItem());
+                System.out.println(value);
                 if (currentElem.getItem().equals(value)) {
                     LinkedNode<T> next = currentElem.getNext();
                     LinkedNode<T> previous = currentElem.getPrevious();
@@ -137,6 +139,7 @@ public class DoubleLinkedList<T> implements DoubleLinkedQueue<T> {
                     this.size--;
                     finish = true;
                 }
+                currentElem = currentElem.getNext();
                 i++;
             }
         }
